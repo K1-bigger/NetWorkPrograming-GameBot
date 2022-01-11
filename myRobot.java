@@ -96,7 +96,7 @@ public class myRobot {
 				//各燃料タンクの位置を確認
 				// energy_infoはピリオドのみの行で終了です
 				line = in.readLine();
-				for (int i = 0; !".".equals(line); i++){
+				for (i = 0; !".".equals(line); i++){
 					StringTokenizer st = new StringTokenizer(line);
 
 					// 燃料タンクの位置座標を読み取ります
@@ -110,9 +110,10 @@ public class myRobot {
 				/*ここまで盤面読み込み*/
 
 				/*全燃料の中で最も近いものを探す*/
-				int dx,dy,neari;
+				/*海の境界をまたぐ距離は考えていない*/
+				int dx,dy,neari;/*x距離,y距離,i番目の燃料*/
 				dx = dy = 512;
-				for(int i = 0; Egx[i] < 512; i++){
+				for(i = 0; Egx[i] < 512; i++){
 					if((dx + dy) > Math.abs(x - Egx) + Math.abs(y - Egy)){
 						dx = Math.abs(x - Egx);
 						dy = Math.abs(y - Egy);
@@ -120,7 +121,15 @@ public class myRobot {
 					}
 				}
 
-
+				/*一定範囲C内の燃料の合計点数を計算する*/
+				/*海の境界をまたぐ範囲は考えていない*/
+				int sump = 0 ; /*合計点数*/
+				int radius = 50; /*半径*/
+				for (i = 0; Egx[i] < 512; i++){
+					if(radius >= Math.abs(x - Egx) + Math.abs(y - Egy)){
+						sump += Egp[i];
+					}
+				}
 
 				/*System.out.println("あと" + timeTolive + "回") ;
 				// 10 回に渡り,sleeptime*100ミリ秒おきにleftコマンドを送ります
