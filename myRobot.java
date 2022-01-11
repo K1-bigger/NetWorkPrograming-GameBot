@@ -24,6 +24,8 @@ public class myRobot {
 	// ロボットがlogoutするまでの時間を規定する変数timeTolive
 	int timeTolive = 50 ;/*100ms*/
 
+	int i = 0 ;
+
 	//本船の位置座標を保存
 	int x;
 	int y;
@@ -34,6 +36,13 @@ public class myRobot {
 	int[] Egx = new int[200];
 	int[] Egy = new int[200];
 	int[] Egp = new int[200];
+
+	for(i = 0; i<20; i++){
+		Emx[i] = Emy[i] = 512;
+	}
+	for(i = 0; i<200; i++){
+		Egx[i] = Egy[i] = Egp[i] = 512;
+	}
 
 	String line;
 	// コンストラクタ
@@ -51,7 +60,6 @@ public class myRobot {
 				out.flush();
 
 				/*盤面情報読み込み(UmiClientから移植)*/
-				/*描画命令も含まれている*/
 				String line = in.readLine();// サーバからの入力の読み込み
 
 				//ship_infoから始まる船の情報の先頭行を探します
@@ -61,9 +69,7 @@ public class myRobot {
 				// 各船の位置を確認
 				// ship_infoはピリオドのみの行で終了です
 				line = in.readLine();
-				while (!".".equals(line)){
-					int i=0;
-
+				for (int i = 0; !".".equals(line); i++){
 					StringTokenizer st = new StringTokenizer(line);
 					// 名前を読み取ります
 					String obj_name = st.nextToken().trim();
@@ -79,7 +85,6 @@ public class myRobot {
 						ex[i] = Integer.parseInt(st.nextToken()) ;
 						ey[i] = Integer.parseInt(st.nextToken()) ;
 					}
-
 					// 次の１行を読み取ります
 					line = in.readLine();
 				}
@@ -91,20 +96,29 @@ public class myRobot {
 				//各燃料タンクの位置を確認
 				// energy_infoはピリオドのみの行で終了です
 				line = in.readLine();
-				while (!".".equals(line)){
+				for (int i = 0; !".".equals(line); i++){
 					StringTokenizer st = new StringTokenizer(line);
 
 					// 燃料タンクの位置座標を読み取ります
-					Egx = Integer.parseInt(st.nextToken()) ;
-					Egy = Integer.parseInt(st.nextToken()) ;
-					Egp = Integer.parseInt(st.nextToken()) ;
+					Egx[i] = Integer.parseInt(st.nextToken()) ;
+					Egy[i] = Integer.parseInt(st.nextToken()) ;
+					Egp[i] = Integer.parseInt(st.nextToken()) ;
 
 					// 次の１行を読み取ります
 					line = in.readLine();
 				}
-				/*ここまで移植*/
+				/*ここまで盤面読み込み*/
 
-
+				/*全燃料の中で最も近いものを探す*/
+				int dx,dy,neari;
+				dx = dy = 512;
+				for(int i = 0; Egx[i] < 512; i++){
+					if((dx + dy) > Math.abs(x - Egx) + Math.abs(y - Egy)){
+						dx = Math.abs(x - Egx);
+						dy = Math.abs(y - Egy);
+						neari = i;
+					}
+				}
 
 
 
