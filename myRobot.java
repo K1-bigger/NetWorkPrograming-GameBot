@@ -82,8 +82,8 @@ public class myRobot {
 						y = Integer.parseInt(st.nextToken()) ;
 					}else{
 						//敵船の位置座標を読み取ります
-						ex[i] = Integer.parseInt(st.nextToken()) ;
-						ey[i] = Integer.parseInt(st.nextToken()) ;
+						Emx[i] = Integer.parseInt(st.nextToken()) ;
+						Emy[i] = Integer.parseInt(st.nextToken()) ;
 					}
 					// 次の１行を読み取ります
 					line = in.readLine();
