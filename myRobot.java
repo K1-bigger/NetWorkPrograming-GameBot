@@ -41,7 +41,7 @@ public class myRobot {
 		Emx[i] = Emy[i] = 512;
 	}
 	for(i = 0; i<200; i++){
-		Egx[i] = Egy[i] = Egp[i] = 512;
+		Egx[i] = Egy[i] = Egp[i] = 512;//終了条件を512とする
 	}
 
 	String line;
@@ -114,22 +114,49 @@ public class myRobot {
 				int dx,dy,neari;/*x距離,y距離,i番目の燃料*/
 				dx = dy = 512;
 				for(i = 0; Egx[i] < 512; i++){
-					if((dx + dy) > Math.abs(x - Egx) + Math.abs(y - Egy)){
+					if((dx + dy) > Math.abs(x - Egx[i]) + Math.abs(y - Egy[i])){
 						dx = Math.abs(x - Egx);
 						dy = Math.abs(y - Egy);
 						neari = i;
 					}
 				}
+				System.out.println("最も近い燃料タンクは(" + Egx[neari] + "," + Egy[neari] + ")、" + Egp[neari] + "点\n");
 
 				/*一定範囲C内の燃料の合計点数を計算する*/
 				/*海の境界をまたぐ範囲は考えていない*/
 				int sump = 0 ; /*合計点数*/
 				int radius = 50; /*半径*/
 				for (i = 0; Egx[i] < 512; i++){
-					if(radius >= Math.abs(x - Egx) + Math.abs(y - Egy)){
+					if(radius >= Math.abs(x - Egx[i]) + Math.abs(y - Egy[i])){
 						sump += Egp[i];
 					}
 				}
+				System.out.println("距離%d未満の燃料タンクの合計点数は" + sump +"\n");
+
+				/*一定範囲C内で、各象限のどの方面に多くの点数があるかを計算する*/
+				/*海の境界をまたぐ範囲は考えていない*/
+				int quadrant1=0,quadrant2=0,quadrant3=0,quadrant4=0;
+				int quadrantmax=0,quadrantnum=0;
+				for(i = 0; Egx[i] < 512; i++){
+					if(radius >= Math.abs(x-Egx[i]) + Math.abs(y - Egy[i])){
+						if(Egx[i] >= 0 && Egy[i] >= 0){
+							quadrant1 += Egp[i];
+						}else if(Egx[i] >= 0 && Egy[i] < 0){
+							quadrant2 += Egp[i];
+						}else if(Egx[i] < 0 && Egy[i] < 0){
+							quadrant3 += Egp[i];
+						}else{
+							quadrant4 += Egp[i];
+						}
+					}
+				}
+				System.out.println("第一象限:" + quadrant1 + "\n第二象限:" + quadrant2 + "\n第三象限:" + quadrant3 + "\n第四象限:" + quadrant4+ "\n");
+
+				//1vs2の大きい方と、3vs4の大きいほうを比べてquadrantnumを決定
+				(quadrant1 > quadrant2) ? quadrantnum = 1: quadrantnum = 2;
+				quadrantnum == 1 ? ((quadrant3 > quadrant4) ? ((quadrant3 > quadrant1) ? quadrantnum = 3 : quadrantnum = 1) : ((quadrant4 > quadrant1) ? quadrantnum = 4 : quadrantnum = 1)) : ((quadrant3 > quadrant4) ? ((quadrant3 > quadrant2) ? quadrantnum = 3 : quadrantnum = 2) : ((quadrant4 > quadrant2) ? quadrantnum = 4 : quadrantnum = 2))
+				System.out.println("最も点数の多い象限は第" + quadrantnum + "象限\n");
+
 
 				/*System.out.println("あと" + timeTolive + "回") ;
 				// 10 回に渡り,sleeptime*100ミリ秒おきにleftコマンドを送ります
