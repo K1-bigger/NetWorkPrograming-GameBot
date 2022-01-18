@@ -111,7 +111,7 @@ public class myRobot {
 
 				/*‘S”R—¿‚Ì’†‚ÅÅ‚à‹ß‚¢‚à‚Ì‚ğ’T‚·*/
 				/*ŠC‚Ì‹«ŠE‚ğ‚Ü‚½‚®‹——£‚Íl‚¦‚Ä‚¢‚È‚¢*/
-				int dx,dy,neari;/*x‹——£,y‹——£,i”Ô–Ú‚Ì”R—¿*/
+				int dx,dy,sumd,neari;/*x‹——£,y‹——£,i”Ô–Ú‚Ì”R—¿*/
 				dx = dy = 512;
 				for(i = 0; Egx[i] < 512; i++){
 					if((dx + dy) > Math.abs(x - Egx[i]) + Math.abs(y - Egy[i])){
@@ -121,6 +121,8 @@ public class myRobot {
 					}
 				}
 				System.out.println("Å‚à‹ß‚¢”R—¿ƒ^ƒ“ƒN‚Í(" + Egx[neari] + "," + Egy[neari] + ")A" + Egp[neari] + "“_\n");
+				sumd = dx + dy;
+				System.out.println("‚»‚Ì‹——£‚Í" + sumd + "\n");
 
 				/*ˆê’è”ÍˆÍC“à‚Ì”R—¿‚Ì‡Œv“_”‚ğŒvZ‚·‚é*/
 				/*ŠC‚Ì‹«ŠE‚ğ‚Ü‚½‚®”ÍˆÍ‚Íl‚¦‚Ä‚¢‚È‚¢*/
