@@ -156,6 +156,73 @@ public class myRobot {
 				(quadrant1 > quadrant2) ? quadrantnum = 1: quadrantnum = 2;
 				quadrantnum == 1 ? ((quadrant3 > quadrant4) ? ((quadrant3 > quadrant1) ? quadrantnum = 3 : quadrantnum = 1) : ((quadrant4 > quadrant1) ? quadrantnum = 4 : quadrantnum = 1)) : ((quadrant3 > quadrant4) ? ((quadrant3 > quadrant2) ? quadrantnum = 3 : quadrantnum = 2) : ((quadrant4 > quadrant2) ? quadrantnum = 4 : quadrantnum = 2))
 				System.out.println("最も点数の多い象限は第" + quadrantnum + "象限\n");
+				switch(quadrantnum){
+					case 1:
+						quadrantmax = quadrant1;
+						break;
+					case 2:
+						quadrantmax = quadrant2;
+						break;
+					case 3:
+						quadrantmax = quadrant3;
+						break;
+					case 4:
+						quadrantmax = quadrant4;
+						break;
+					default:
+						System.out.println("quadrantnumが1~4以外の値を指しています\n");
+						quadrantmax = 0;
+				}
+				System.out.println("合計点は" + quadrantmax + "\n");
+
+				/*すべての敵船について各象限の点数を計算する*/
+				/*海の境界をまたぐ範囲は考えていない*/
+				for(int j = 0; Emx[j] < 512; j++){
+					System.out.println("No." + j + "\n");
+					quadrant1=0;
+					quadrant2=0;
+					quadrant3=0;
+					quadrant4=0;
+					quadrantmax=0;
+					quadrantnum=0;
+					for(i = 0; Egx[i] < 512; i++){
+						if(radius >= Math.abs(Emx[j]-Egx[i]) + Math.abs(Emy[j] - Egy[i])){
+							if(Egx[i] >= 0 && Egy[i] >= 0){
+								quadrant1 += Egp[i];
+							}else if(Egx[i] >= 0 && Egy[i] < 0){
+								quadrant2 += Egp[i];
+							}else if(Egx[i] < 0 && Egy[i] < 0){
+								quadrant3 += Egp[i];
+							}else{
+								quadrant4 += Egp[i];
+							}
+						}
+					}
+					System.out.println("第一象限:" + quadrant1 + "\n第二象限:" + quadrant2 + "\n第三象限:" + quadrant3 + "\n第四象限:" + quadrant4+ "\n");
+
+					//1vs2の大きい方と、3vs4の大きいほうを比べてquadrantnumを決定
+					(quadrant1 > quadrant2) ? quadrantnum = 1: quadrantnum = 2;
+					quadrantnum == 1 ? ((quadrant3 > quadrant4) ? ((quadrant3 > quadrant1) ? quadrantnum = 3 : quadrantnum = 1) : ((quadrant4 > quadrant1) ? quadrantnum = 4 : quadrantnum = 1)) : ((quadrant3 > quadrant4) ? ((quadrant3 > quadrant2) ? quadrantnum = 3 : quadrantnum = 2) : ((quadrant4 > quadrant2) ? quadrantnum = 4 : quadrantnum = 2))
+					System.out.println("最も点数の多い象限は第" + quadrantnum + "象限\n");
+					switch(quadrantnum){
+						case 1:
+							quadrantmax = quadrant1;
+							break;
+						case 2:
+							quadrantmax = quadrant2;
+							break;
+						case 3:
+							quadrantmax = quadrant3;
+							break;
+						case 4:
+							quadrantmax = quadrant4;
+							break;
+						default:
+							System.out.println("quadrantnumが1~4以外の値を指しています\n");
+							quadrantmax = 0;
+					}
+					System.out.println("合計点は" + quadrantmax + "\n");
+				}
 
 
 				/*System.out.println("あと" + timeTolive + "回") ;
